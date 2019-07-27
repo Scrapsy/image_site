@@ -1,0 +1,21 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'views/style.css' %}">
+
+{% include "views/menu.html" %}
+
+<div class="show">
+    <h1>{{ image.title }}</h1>
+    <div class="image">
+        <a href="{% static image.filename %}">
+            <img src="{% static image.filename %}" />
+        </a>
+    </div>
+    <p>
+        {% for word in keywords %}
+            <a href="{% url 'views:search' %}?keywords={{word}}">{{ word }}</a>
+        {% endfor %}
+    </p>
+    <p>{{ image.description }}</p>
+    <p>Posted: {{ image.pub_date }}</p>
+</div>

@@ -1,0 +1,115 @@
+{% load static %}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'views/style.css' %}">
+
+<script>
+    $( function() {
+        var availableTags = [
+        {% for word in suggested_keywords %}
+            "{{ word }}",
+        {% endfor %}
+        ];
+        function split( val ) {
+          return val.split( /,\s*/ );
+        }
+        function extractLast( term ) {
+          return split( term ).pop();
+        }
+
+        $( "#keywords" )
+        // don't navigate away from the field on tab when selecting an item
+        .on( "keydown", function( event ) {
+        if ( event.keyCode === $.ui.keyCode.TAB &&
+            $( this ).autocomplete( "instance" ).menu.active ) {
+            event.preventDefault();
+        }
+        })
+        .autocomplete({
+            minLength: 0,
+            source: function( request, response ) {
+                // delegate back to autocomplete, but extract the last term
+                response( $.ui.autocomplete.filter(
+                availableTags, extractLast( request.term ) ) );
+            },
+            focus: function() {
+                // prevent value inserted on focus
+                return false;
+            },
+            select: function( event, ui ) {
+                var terms = split( this.value );
+                // remove the current input
+                terms.pop();
+                // add the selected item
+                terms.push( ui.item.value );
+                // add placeholder to get the comma-and-space at the end
+                terms.push( "" );
+                this.value = terms.join( ", " );
+                return false;
+            }
+        });
+    });
+</script>
+
+{% include "views/menu.html" %}
+
+<div class="submit">
+    <h1>Submit new image</h1>
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form autocomplete="off" action="{% url 'views:submit' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+        <div id="dropZone" class="drop-zone"></div>
+        <input type="file" id="image_upload" name="image_image" required="true" /><br />
+        <input type="text" name="image_title" placeholder="title" required="true" /><br />
+        <textarea name="image_description" placeholder="description" rows="3" cols="60" required="true"></textarea><br />
+        <input type="text" id="keywords" name="image_keywords" placeholder="keywords" required="true" /><br />
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<script type="text/javascript">
+    var dropZone = document.getElementById('dropZone');
+
+    // Optional.   Show the copy icon when dragging over.  Seems to only work for chrome.
+    dropZone.addEventListener('dragover', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'copy';
+    });
+
+    // Get file data on drop
+    dropZone.addEventListener('drop', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        var files = e.dataTransfer.files; // Array of all files
+
+        for (var i=0, file; file=files[i]; i++) {
+            if (file.type.match(/image.*/)) {
+                var reader = new FileReader();
+
+                reader.onload = function(e2) {
+                    let fileInput = document.querySelector('#image_upload');
+                    fileInput.files = e.dataTransfer.files;
+                    // finished reading file data.
+
+                    let zone = document.querySelector('.drop-zone');
+                    var img = document.createElement('img');
+                    img.src= e2.target.result;
+                    img.classList.add("uploaded-image");
+                    zone.parentNode.insertBefore(img, zone);
+
+                    var br = document.createElement('br');
+                    zone.parentNode.insertBefore(br, zone);
+                }
+
+                reader.readAsDataURL(file); // start reading the file data.
+            }
+        }
+    });
+</script>

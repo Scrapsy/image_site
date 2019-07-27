@@ -1,0 +1,19 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'views/style.css' %}">
+
+{% include "views/menu.html" %}
+<div class="mainpage">
+    {% if latest_images %}
+        {% for image in latest_images %}
+            <div class="sample">
+                <a href="{% url 'views:show' image.id %}">
+                    <div class="title">{{ image.title }}</div>
+                    <img src="{% static image.filename %}" class="sample" />
+                </a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No images are available.</p>
+    {% endif %}
+</div>

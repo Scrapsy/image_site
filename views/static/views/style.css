@@ -1,0 +1,105 @@
+body {
+    background: #eee;
+    font-family: consolas;
+}
+
+img.sample {
+    max-width: 250px;
+    max-height: 250px;
+}
+
+div.sample {
+    display: inline-block;
+}
+
+.sample .title {
+    text-align:center;
+}
+
+.sample a {
+    text-decoration: none;
+    color: #111;
+}
+
+.sample a:hover {
+    background: #ddd;
+    color: #333;
+}
+
+div.menu {
+    background: #ccc;
+    margin: auto;
+    margin-bottom: 10px;
+    width: 14em;
+    padding: 10px 10px 10px 10px;
+    border-bottom: 3px solid #333;
+}
+
+.menu a {
+    text-decoration: none;
+    padding: 2px 3px;
+    color: #111;
+}
+
+.menu a:hover {
+    background: #ddd;
+    color: #333;
+}
+
+div.mainpage {
+    background: #fff;
+    margin: auto;
+    width: 80em;
+    padding: 10px;
+    border-bottom: 3px #333 solid;
+}
+
+div.show, div.submit, div.filter {
+    width: 1000px;
+    background: #fff;
+    padding: 10px;
+    border-bottom: 3px #333 solid;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+div.show a {
+    color: #333;
+    text-decoration: none;
+}
+
+div.show a:hover {
+    text-decoration: underline;
+}
+
+div.show .image img {
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 900px;
+    max-width: 900px;
+    display: block;
+}
+
+div.submit input {
+    width: 500px;
+}
+
+div.submit form {
+    margin: auto;
+    width: 500px;
+}
+
+.drop-zone {
+    border: 3px dotted #666;
+    height: 500px;
+    width: 500px;
+}
+
+.uploaded-image {
+    max-height: 500px;
+    max-width: 500px;
+}
+
+.uploaded-image ~ .drop-zone {
+    display: none;
+}
