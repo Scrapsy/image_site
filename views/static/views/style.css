@@ -1,6 +1,7 @@
 body {
     background: #eee;
     font-family: consolas;
+    margin: 0;
 }
 
 img.sample {
@@ -30,7 +31,7 @@ div.menu {
     background: #ccc;
     margin: auto;
     margin-bottom: 10px;
-    width: 14em;
+    width: 290px;
     padding: 10px 10px 10px 10px;
     border-bottom: 3px solid #333;
 }
@@ -54,13 +55,18 @@ div.mainpage {
     border-bottom: 3px #333 solid;
 }
 
-div.show, div.submit, div.filter {
+div.show, div.submit, div.filter, div.login {
     width: 1000px;
     background: #fff;
     padding: 10px;
     border-bottom: 3px #333 solid;
     margin: auto;
     margin-bottom: 10px;
+}
+
+div.login-center {
+    margin: auto;
+    width: 150px;
 }
 
 div.show a {
@@ -101,5 +107,18 @@ div.submit form {
 }
 
 .uploaded-image ~ .drop-zone {
+    display: none;
+}
+
+div.loading {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    position: fixed;
+    top: 0;
+    opacity: 0.1;
+}
+
+div.hidden {
     display: none;
 }

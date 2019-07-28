@@ -73,6 +73,8 @@
     </form>
 </div>
 
+<div class="loading hidden"></div>
+
 <script type="text/javascript">
     var dropZone = document.getElementById('dropZone');
 
@@ -89,6 +91,8 @@
         e.preventDefault();
         var files = e.dataTransfer.files; // Array of all files
 
+        var loading = document.querySelector('.loading');
+        loading.classList.remove("hidden");
         for (var i=0, file; file=files[i]; i++) {
             if (file.type.match(/image.*/)) {
                 var reader = new FileReader();
@@ -106,6 +110,8 @@
 
                     var br = document.createElement('br');
                     zone.parentNode.insertBefore(br, zone);
+
+                    loading.classList.add("hidden");
                 }
 
                 reader.readAsDataURL(file); // start reading the file data.

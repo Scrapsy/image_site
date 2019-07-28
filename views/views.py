@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.views import generic
 from django.db.models import Q
 from django.utils.datastructures import MultiValueDictKeyError
+from django.contrib.auth.decorators import login_required
 
 from .models import Image, Keyword
 
@@ -16,6 +17,7 @@ class IndexView(generic.ListView):
         return Image.objects.order_by('-pub_date')[:25]
 
 
+@login_required
 def submit(request):
     if request.method == "POST":
         try:
@@ -75,7 +77,7 @@ class ShowView(generic.DetailView):
 def search(request):
     keywords = getValueOr(request.GET, 'keywords', '')
     page = int(getValueOr(request.GET, 'page', '0'))
-    limit = int(getValueOr(request.GET, 'limit', '10'))
+    limit = int(getValueOr(request.GET, 'limit', '25'))
 
     suggestions = []
     for word in Keyword.objects.all():
