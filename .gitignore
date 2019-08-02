@@ -105,4 +105,4 @@ venv.bak/
 
 db.sqlite3
 
-views/static/uploads/
+views/media

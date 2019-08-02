@@ -7,8 +7,8 @@
 <div class="show">
     <h1>{{ image.title }}</h1>
     <div class="image">
-        <a href="{% static image.filename %}">
-            <img src="{% static image.filename %}" />
+        <a href="{{ MEDIA_URL }}{{ image.filename }}">
+            <img src="{{ MEDIA_URL }}{{ image.filename }}" />
         </a>
     </div>
     <p>

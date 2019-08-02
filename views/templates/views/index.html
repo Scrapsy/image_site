@@ -9,7 +9,7 @@
             <div class="sample">
                 <a href="{% url 'views:show' image.id %}">
                     <div class="title">{{ image.title }}</div>
-                    <img src="{% static image.filename %}" class="sample" />
+                    <img src="{{ MEDIA_URL }}{{ image.filename }}" class="sample" />
                 </a>
             </div>
         {% endfor %}
