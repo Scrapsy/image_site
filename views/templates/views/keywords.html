@@ -1,0 +1,11 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'views/style.css' %}">
+
+{% include "views/menu.html" %}
+<div class="keywords">
+    {% for word in keywords %}
+        | <a href="{% url 'views:search' %}?keywords={{ word }}" style="font-size:{{ word.fontsize }}px">{{ word.keyword|capfirst }} [{{ word.uses }}]</a>
+        {% if forloop.counter|divisibleby:5 %}<br />{% endif %}
+    {% endfor %}
+</div>

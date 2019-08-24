@@ -8,4 +8,5 @@ urlpatterns = [
     path('submit/', views.submit, name='submit'),
     path('show/<int:pk>/', views.ShowView.as_view(), name='show'),
     path('search/', views.search, name='search'),
+    path('skim/', views.keywords, name='skim'),
 ]

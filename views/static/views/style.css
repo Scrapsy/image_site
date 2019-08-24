@@ -31,7 +31,7 @@ div.menu {
     background: #ccc;
     margin: auto;
     margin-bottom: 10px;
-    width: 290px;
+    width: 340px;
     padding: 10px 10px 10px 10px;
     border-bottom: 3px solid #333;
 }
@@ -47,12 +47,17 @@ div.menu {
     color: #333;
 }
 
-div.mainpage {
+div.mainpage,
+div.keywords {
     background: #fff;
     margin: auto;
     width: 80em;
     padding: 10px;
     border-bottom: 3px #333 solid;
+}
+
+div.keywords {
+    text-align: center;
 }
 
 div.show, div.submit, div.filter, div.login {
@@ -69,12 +74,14 @@ div.login-center {
     width: 150px;
 }
 
-div.show a {
+div.show a,
+div.keywords a {
     color: #333;
     text-decoration: none;
 }
 
-div.show a:hover {
+div.show a:hover,
+div.keywords a:hover {
     text-decoration: underline;
 }
 

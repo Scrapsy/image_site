@@ -111,8 +111,26 @@ def search(request):
 
     return render(request, 'views/search.html', context)
 
+def keywords(request):
+    keywords = Keyword.objects.all().order_by('keyword')
+    max_uses = 0
+    for keyword in keywords:
+        if max_uses < keyword.uses:
+            max_uses = keyword.uses
+
+    for keyword in keywords:
+        keyword.fontsize = 30 + ((keyword.uses - max_uses) / max_uses) * 16
+        if 30 < keyword.fontsize:
+            keyword.fontsize = 30
+
+    context = {
+        "keywords": keywords
+    }
+    return render(request, 'views/keywords.html', context)
+
+
 def getValueOr(dictionary, key, default):
     try:
         return dictionary[key]
-    except MultiValueDictKeyError as e:
+    except MultiValueDictKeyError:
         return default
