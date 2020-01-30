@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Image, Keyword
 
+
 class IndexView(generic.ListView):
     template_name = 'views/index.html'
     context_object_name = 'latest_images'
@@ -34,6 +35,7 @@ class IndexView(generic.ListView):
         ctx['limit'] = self.request.GET.get('limit', 25)
         return ctx
 
+
 @login_required
 def submit(request):
     if request.method == "POST":
@@ -54,8 +56,6 @@ def submit(request):
             description=image_description,
             keywords=image_keywords,
             pub_date=pub_date)
-        
-        image.save()
 
         splits = image_image.name.split(".")
         filetype = splits[len(splits)-1:]
@@ -78,6 +78,48 @@ def submit(request):
             "suggested_keywords": suggestions
         }
         return render(request, 'views/submit.html', context)
+
+
+@login_required
+def update(request, pk):
+    if request.method == "POST":
+        try:
+            image_id = pk
+            image_title = request.POST["image_title"]
+            image_description = request.POST["image_description"]
+            image_keywords = request.POST["image_keywords"]
+            pub_date = timezone.now()
+        except KeyError as ke:
+            print("Key error({0})".format(ke))
+            print(request.POST)
+            return render(request, 'views/submit.html', {
+                'error_message': "Information missing.",
+            })
+        image = Image.objects.get(id=image_id)
+        image.title=image_title
+        image.description=image_description
+        image.keywords=image_keywords
+        image.pub_date=pub_date
+
+        image.save()
+
+        for key in image_keywords.split(","):
+            new_key, created = Keyword.objects.get_or_create(keyword=key.strip().lower())
+            new_key.uses += 1
+            new_key.save()
+
+        return HttpResponseRedirect(reverse('views:show', args=(image.id,)))
+    else:
+        image = Image.objects.get(id=pk)
+        suggestions = []
+        for word in Keyword.objects.all():
+            suggestions.append(word.keyword)
+        suggestions.sort()
+        context = {
+            "suggested_keywords": suggestions,
+            "image": image
+        }
+        return render(request, 'views/edit.html', context)
 
 
 class ShowView(generic.DetailView):

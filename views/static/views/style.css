@@ -60,7 +60,7 @@ div.keywords {
     text-align: center;
 }
 
-div.show, div.submit, div.filter, div.login {
+div.show, div.submit, div.update, div.filter, div.login {
     width: 1000px;
     background: #fff;
     padding: 10px;
@@ -85,7 +85,7 @@ div.keywords a:hover {
     text-decoration: underline;
 }
 
-div.show .image img {
+div.show .image img, div.update .image img {
     margin-left: auto;
     margin-right: auto;
     max-height: 900px;
@@ -93,11 +93,11 @@ div.show .image img {
     display: block;
 }
 
-div.submit input {
+div.submit input, div.update input {
     width: 500px;
 }
 
-div.submit form {
+div.submit form, div.update form {
     margin: auto;
     width: 500px;
 }

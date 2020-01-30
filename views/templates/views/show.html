@@ -18,4 +18,7 @@
     </p>
     <p>{{ image.description }}</p>
     <p>Posted: {{ image.pub_date }}</p>
+    <p>
+        <a href="{% url 'views:update' pk=image.id %}">&#x1f58a;&#xfe0f;</a>
+    </p>
 </div>
