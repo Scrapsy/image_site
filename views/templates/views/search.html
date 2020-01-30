@@ -68,6 +68,10 @@
 
 <div class="mainpage">
     {% if filtered_images %}
+        <div class="navigation">
+            <a href="{% url 'views:search' %}?keywords={{keywords}}&page={{last_page}}&limit={{limit}}" class="left">&lt;&lt;</a>
+            <a href="{% url 'views:search' %}?keywords={{keywords}}&page={{next_page}}&limit={{limit}}" class="right">&gt;&gt;</a>
+        </div>
         {% for image in filtered_images %}
             <div class="sample">
                 <a href="{% url 'views:show' image.id %}">
@@ -76,6 +80,10 @@
                 </a>
             </div>
         {% endfor %}
+        <div class="navigation">
+            <a href="{% url 'views:search' %}?keywords={{keywords}}&page={{last_page}}&limit={{limit}}" class="left">&lt;&lt;</a>
+            <a href="{% url 'views:search' %}?keywords={{keywords}}&page={{next_page}}&limit={{limit}}" class="right">&gt;&gt;</a>
+        </div>
     {% else %}
         <p>No images are found by query.</p>
     {% endif %}

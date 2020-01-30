@@ -129,3 +129,20 @@ div.loading {
 div.hidden {
     display: none;
 }
+
+div.navigation {
+    height: 20px;
+}
+
+div.navigation a {
+    font-size: x-large;
+    text-decoration: black;
+}
+
+a.right {
+    float: right;
+}
+
+a.left {
+    float: left;
+}

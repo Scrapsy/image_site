@@ -13,9 +13,26 @@ class IndexView(generic.ListView):
     context_object_name = 'latest_images'
 
     def get_queryset(self):
-        """Return the last five published questions."""
-        return Image.objects.order_by('-pub_date')[:25]
+        page = self.request.GET.get('page', 0)
+        limit = self.request.GET.get('limit', 25)
+        page = int(page)
+        limit = int(limit)
+        start = page * limit
+        end = (page + 1) * limit
+        if start < 0:
+            start = 0
+            end = limit
+        return Image.objects.order_by('-pub_date')[start:end]
 
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        page = self.request.GET.get('page', 0)
+        page = int(page)
+        ctx['last_page'] = page - 1
+        ctx['page'] = page
+        ctx['next_page'] = page + 1
+        ctx['limit'] = self.request.GET.get('limit', 25)
+        return ctx
 
 @login_required
 def submit(request):
@@ -78,6 +95,8 @@ def search(request):
     keywords = getValueOr(request.GET, 'keywords', '')
     page = int(getValueOr(request.GET, 'page', '0'))
     limit = int(getValueOr(request.GET, 'limit', '25'))
+    page = int(page)
+    limit = int(limit)
 
     suggestions = []
     for word in Keyword.objects.all():
@@ -99,12 +118,19 @@ def search(request):
     images = Image.objects.all()
     for key in keys:
         images = images.filter(Q(keywords__contains=key.strip().lower()))
-    images = images[page*limit:(page+1)*limit]
+    start = page*limit
+    end = (page+1)*limit
+    if start < 0:
+        start = 0
+        end = limit
+    images = images[start:end]
 
     context = {
         "filtered_images": images,
         "keywords": keywords,
         "page": page,
+        "last_page": page-1,
+        "next_page": page+1,
         "limit": limit,
         "suggested_keywords": suggestions
     }

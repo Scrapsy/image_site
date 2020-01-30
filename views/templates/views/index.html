@@ -5,6 +5,10 @@
 {% include "views/menu.html" %}
 <div class="mainpage">
     {% if latest_images %}
+        <div class="navigation">
+            <a href="{% url 'views:index' %}?page={{last_page}}&limit={{limit}}" class="left">&lt;&lt;</a>
+            <a href="{% url 'views:index' %}?page={{next_page}}&limit={{limit}}" class="right">&gt;&gt;</a>
+        </div>
         {% for image in latest_images %}
             <div class="sample">
                 <a href="{% url 'views:show' image.id %}">
@@ -13,6 +17,10 @@
                 </a>
             </div>
         {% endfor %}
+        <div class="navigation">
+            <a href="{% url 'views:index' %}?page={{last_page}}&limit={{limit}}" class="left">&lt;&lt;</a>
+            <a href="{% url 'views:index' %}?page={{next_page}}&limit={{limit}}" class="right">&gt;&gt;</a>
+        </div>
     {% else %}
         <p>No images are available.</p>
     {% endif %}
